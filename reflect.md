@@ -18,3 +18,39 @@ reflect.Value := reflect.ValueOf(interface{})
 method := reflect.MethodByName(string)
 []reflect.Value{} := method.Call([]reflect.Value{})
 ```
+
+## Example
+
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+// Person ...
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	p := &Person{
+		Name: "hello",
+		Age:  100,
+	}
+
+	pt := reflect.ValueOf(p).Elem()
+
+	for i := 0; i < pt.NumField(); i++ {
+		f := pt.Field(i)
+		t := pt.Type().Field(i)
+		if t.Type.Kind() == reflect.String {
+			fmt.Printf("%s=%v\n", t.Name, f.Interface())
+		}
+	}
+
+}
+
+```
